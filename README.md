@@ -1,3 +1,15 @@
+<p Instrucciones para ejecutar los DB seeds
+Una vez ejecutado el artisan migrate, ejecutar los siguientes seeds en el mismo orden que se muestra abajo:
+1. CreateTypeSeeder
+2. CreateStateSeeder
+3. PermissionTableSeeder
+4. CreateAdminUserSeeder
+5. RoleSeeder>
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
