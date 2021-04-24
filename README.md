@@ -4,7 +4,7 @@ Una vez ejecutado el artisan migrate, ejecutar los siguientes seeds en el mismo 
 2. CreateStateSeeder
 3. PermissionTableSeeder
 4. CreateAdminUserSeeder
-5. RoleSeeder>
+5. RoleSeeder </p>
 
 
 
