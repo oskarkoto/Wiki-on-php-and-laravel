@@ -51,7 +51,7 @@
                 </div>
         </div>
         <!--Footer Starts-->
-        <div class="containerBg bg-gray-100 dark:bg-gray-900" style="text-align: center; font-size: x-small">
+        <div class="containerBg bg-gray-100 dark:bg-gray-900" style="text-align: center; font-size: small">
             <footer id="siteFooter" class="container-fluid">
                 wikiP4 - Programacion 4 ULATINA - Oscar Roberto Coto Calderon
             </footer>
