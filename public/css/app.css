@@ -9660,3 +9660,9 @@ a.text-dark:hover, a.text-dark:focus {
 select.form-control[multiple]{
     height: 80px;
 }
+
+.paginationBar{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

@@ -36,7 +36,7 @@ class WikiController extends Controller
         $myTypes = Wtype::all();
         $myStates = Wstate::all();
         $myUsers = User::all();
-        $wikis = Wiki::latest()->paginate(5);
+        $wikis = Wiki::latest()->simplePaginate(5);
         $data = ['wikis' => $wikis, 'types' => $myTypes, 'states' => $myStates, 'users' => $myUsers];
         return view('wikis.index', compact('data'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
