@@ -5,22 +5,13 @@
             <div class="pull-left">
                 <h2>Wikis</h2>
             </div>
-            <div class="pull-right">
-                @can('wiki-create')
-                    <a class="btn btn-success" href="{{ route('wikis.create') }}"> Create New Wiki</a>
-                @endcan
-            </div>
         </div>
     </div>
-
-
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-
-
     <table class="table table-bordered">
         <tr>
             <th>Title</th>
@@ -55,7 +46,6 @@
                         @break
                     @endif
                 @endforeach
-
                 <td>{{ $wiki->created_at }}</td>
                 <td>
                     <form action="{{ route('wikis.destroy',$wiki->id) }}" method="POST">
@@ -63,8 +53,6 @@
                         @can('wiki-edit')
                             <a class="btn btn-primary" href="{{ route('wikis.edit',$wiki->id) }}">Edit</a>
                         @endcan
-
-
                         @csrf
                         @method('DELETE')
                         @can('wiki-delete')
@@ -75,7 +63,11 @@
             </tr>
         @endforeach
     </table>
-
-
+    <div class="pt-2 col-xs-12 col-sm-12 col-md-12 text-center">
+        @can('wiki-create')
+            <a class="btn btn-secondary" href="{{ route('home') }}" style="margin-left: 10px"> Back</a>
+            <a class="btn btn-primary" href="{{ route('wikis.create') }}"> Create New Wiki</a>
+        @endcan
+    </div>
     {!! $data['wikis']->links() !!}
 @endsection

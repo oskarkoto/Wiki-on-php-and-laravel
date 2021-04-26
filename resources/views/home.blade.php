@@ -14,32 +14,48 @@
                 </div>
             </div>
             <div class="col-md-10" id="cBar">
-                <div id="welcomeBar">
+                <div class="col-md-7 p-2" id="welcomeBar">
                     <h1 class="p-2">Welcome to wikiP4</h1>
                     <p class="p-2">A wiki just for employees where you will find the most recent questions and articles published by colleagues,
                         and post your own. Enjoy!</p>
                 </div>
                 <div class="row">
-                    <div class="col-md-7 p-2" id="feauturedBar">
-                        <h4>Featured Post</h4>
-                        <div class="card">
-                            <div class="card-header">Card1</div>
-                            <div class="card-body">Card1</div>
-                        </div>
-                    </div>
-                    <div class="col-md-5 p-2" id="recentBar">
-                        <h4>Recent Posts</h4>
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-header">Card1</div>
-                            <div class="card-body">Card1</div>
-                        </div>
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-header">Card2</div>
-                            <div class="card-body">Card2</div>
-                        </div>
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-header">Card3</div>
-                            <div class="card-body">Card3</div>
+                    <div class="col-md-12 p-2" id="mainBar">
+                        <div class="row">
+                            <div class="col-md-8 p-2" id="feauturedBar">
+                                <h4>Featured Wiki</h4>
+                                <div class="card">
+                                    <div class="card-header"> <strong>Title: </strong>{{ $data['wiki']->title }} </div>
+                                    <div class="card-body">
+                                        {{$data['wiki']->description }} <br><br>
+                                        <strong>Author: </strong>
+                                        @foreach ($data['users'] as $myUser)
+                                            @if ($myUser->id == $data['wiki']->author)
+                                                {{ $myUser->name }}
+                                                @break
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 p-2" id="recentBar">
+                                <h4>Recent Wikis</h4>
+                                @foreach ($data['wikis'] as $post)
+                                    <div class="card text-white bg-primary mb-3">
+                                        <div class="card-header"> <strong>Title: </strong>{{ $post->title }} </div>
+                                        <div class="card-body">
+                                            {{ $post->description }} <br><br>
+                                            <strong>Author: </strong>
+                                            @foreach ($data['users'] as $myUser)
+                                                @if ($myUser->id == $post->author)
+                                                    {{ $myUser->name }}
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>

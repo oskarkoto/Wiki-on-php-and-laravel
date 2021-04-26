@@ -78,47 +78,13 @@ class WikiController extends Controller
      */
     public function show(Wiki $wiki)
     {
-        return view('wikis.show',compact('wiki'));
+        $myTypes = Wtype::all();
+        $myStates = Wstate::all();
+        $myUsers = User::all();
+        $data = ['wikis' => $wiki, 'types' => $myTypes, 'states' => $myStates, 'users' => $myUsers];
+        return view('wikis.show',compact('data'));
     }
 
-//    /**
-//     * Return Type Description
-//     *
-//     * @param int $tID
-//     * @return array
-//     */
-//    public function getTypeDesc(string $tID)
-//    {
-//        $allTypes = Wtype::all();
-//        $myType = $allTypes->find($tID)->description;
-//        return compact('myType');
-//    }
-//
-//    /**
-//     * Return State Description
-//     *
-//     * @param int $sID
-//     * @return array
-//     */
-//    public function getStateDesc(string $sID)
-//    {
-//        $allStates = Wstate::all();
-//        $myState = $allStates->find($sID)->description;
-//        return compact('myState');
-//    }
-//
-//    /**
-//     * Return Author Name
-//     *
-//     * @param int $aID
-//     * @return array
-//     */
-//    public function getAuthorName(string $aID)
-//    {
-//        $allUsers = User::all();
-//        $myAuthor = $allUsers->find($aID)->name;
-//        return compact('myAuthor');
-//    }
 
     /**
      * Show the form for editing the specified resource.

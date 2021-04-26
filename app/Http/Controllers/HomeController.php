@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Wiki;
+use App\Models\Wstate;
+use App\Models\Wtype;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $myUsers = User::all();
+        $wikis = Wiki::all()->sortByDesc('created_at')->take(3);
+        $wiki = Wiki::latest()->first();
+        $data = ['wiki' => $wiki, 'wikis' => $wikis, 'users' => $myUsers];
+        return view('home', compact('data'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 }
