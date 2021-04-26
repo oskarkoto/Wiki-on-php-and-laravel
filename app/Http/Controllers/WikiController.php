@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
 use App\Models\Comment;
 use App\Models\Wiki;
 use Illuminate\Http\Request;
@@ -64,9 +65,13 @@ class WikiController extends Controller
             'description' => 'required',
             'wtype' => 'required'
         ]);
-
         Wiki::create($request->all());
-
+        $lastId = Wiki::latest()->first()->id;
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => $lastId++,
+            'affectedUser' => NULL, 'affectedRole' => NULL, 'action' => 'new wiki created']);
+        AuditLog::create($logRequest->all());
         return redirect()->route('wikis.index')
             ->with('success','Wiki created successfully.');
     }
@@ -121,9 +126,12 @@ class WikiController extends Controller
             'wtype' => 'required',
             'wstate' => 'required'
         ]);
-
         $wiki->update($request->all());
-
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => $wiki->id,
+            'affectedUser' => NULL, 'affectedRole' => NULL, 'action' => 'wiki updated']);
+        AuditLog::create($logRequest->all());
         return redirect()->route('wikis.index')
             ->with('success','Wiki updated successfully');
     }
@@ -138,11 +146,21 @@ class WikiController extends Controller
     {
         if (auth()->user()->hasRole('Contributor')){
             if (auth()->user()->id == $wiki->getAttribute('author')){
+                $logRequest = new Request();
+                $logRequest->setMethod('POST');
+                $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => $wiki->id,
+                    'affectedUser' => NULL, 'affectedRole' => NULL, 'action' => 'wiki deleted']);
+                AuditLog::create($logRequest->all());
                 $wiki->delete();
             } else {
                 throw UnauthorizedException::forPermissions(['wiki-delete']);
             }
         }
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => $wiki->id,
+            'affectedUser' => NULL, 'affectedRole' => NULL, 'action' => 'wiki deleted']);
+        AuditLog::create($logRequest->all());
         $wiki->delete();
 
         return redirect()->route('wikis.index')

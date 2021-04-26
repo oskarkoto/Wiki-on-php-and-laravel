@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
+use App\Models\AuditLog;
 use Spatie\Permission\Models\Permission;
 use DB;
 
@@ -59,10 +60,14 @@ class RoleController extends Controller
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
-
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
-
+        $lastId = Role::latest()->first()->id;
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => NULL,
+            'affectedUser' => NULL, 'affectedRole' => $lastId++, 'action' => 'role created']);
+        AuditLog::create($logRequest->all());
         return redirect()->route('roles.index')
             ->with('success','Role created successfully');
     }
@@ -118,7 +123,11 @@ class RoleController extends Controller
         $role->save();
 
         $role->syncPermissions($request->input('permission'));
-
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => NULL,
+            'affectedUser' => NULL, 'affectedRole' => $id, 'action' => 'role updated']);
+        AuditLog::create($logRequest->all());
         return redirect()->route('roles.index')
             ->with('success','Role updated successfully');
     }
@@ -131,6 +140,11 @@ class RoleController extends Controller
     public function destroy($id)
     {
         DB::table("roles")->where('id',$id)->delete();
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => NULL,
+            'affectedUser' => NULL, 'affectedRole' => $id, 'action' => 'role deleted']);
+        AuditLog::create($logRequest->all());
         return redirect()->route('roles.index')
             ->with('success','Role deleted successfully');
     }

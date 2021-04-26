@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\AuditLog;
 use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
@@ -61,13 +62,16 @@ class UserController extends Controller
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
-
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-
         $user = User::create($input);
+        $lastId = User::latest()->first()->id;
         $user->assignRole($request->input('roles'));
-
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => NULL,
+            'affectedUser' => $lastId++, 'affectedRole' => NULL, 'action' => 'user created']);
+        AuditLog::create($logRequest->all());
         return redirect()->route('users.index')
             ->with('success','User created successfully');
     }
@@ -127,7 +131,11 @@ class UserController extends Controller
         DB::table('model_has_roles')->where('model_id',$id)->delete();
 
         $user->assignRole($request->input('roles'));
-
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => NULL,
+            'affectedUser' => $id, 'affectedRole' => NULL, 'action' => 'user updated']);
+        AuditLog::create($logRequest->all());
         return redirect()->route('users.index')
             ->with('success','User updated successfully');
     }
@@ -140,6 +148,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $logRequest = new Request();
+        $logRequest->setMethod('POST');
+        $logRequest->request->add(['userId' => auth()->user()->id, 'affectedWiki' => NULL,
+            'affectedUser' => $id, 'affectedRole' => NULL, 'action' => 'user deleted']);
+        AuditLog::create($logRequest->all());
         User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
