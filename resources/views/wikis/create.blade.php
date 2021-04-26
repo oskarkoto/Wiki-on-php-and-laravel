@@ -37,7 +37,6 @@
                         <input type="hidden" name="wstate" value="1"/>
                         <input type="hidden" name="author" value={{ auth()->user()->id }}>
                     </div>
-
                 </form>
             </div>
         </div>

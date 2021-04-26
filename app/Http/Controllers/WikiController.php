@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Wiki;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,8 @@ class WikiController extends Controller
         $myTypes = Wtype::all();
         $myStates = Wstate::all();
         $myUsers = User::all();
-        $data = ['wikis' => $wiki, 'types' => $myTypes, 'states' => $myStates, 'users' => $myUsers];
+        $myComments = Comment::select()->where('wiki','=', $wiki->id)->get();
+        $data = ['wikis' => $wiki, 'types' => $myTypes, 'states' => $myStates, 'users' => $myUsers, 'comments' => $myComments];
         return view('wikis.show',compact('data'));
     }
 

@@ -4,7 +4,7 @@
         <div class="row formContainer">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <div style="text-align: center">
-                    <h2>Show User</h2>
+                    <h2>Show Role</h2>
                 </div>
                 <div class="row">
                     <div class="p-2 col-xs-12 col-sm-12 col-md-12">

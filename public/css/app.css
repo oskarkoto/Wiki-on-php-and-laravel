@@ -9630,6 +9630,16 @@ a.text-dark:hover, a.text-dark:focus {
     justify-content: center;
 }
 
+.commentContainer{
+    border: 1px solid #d3d9df;
+    border-radius: 5px;
+    margin: auto;
+    width: 50%;
+    justify-content: center;
+    padding: 10px;
+    box-shadow: 1px 1px rgba(0,0,0,0.15);
+}
+
 .form-control{
     display: flex;
     width: 100%;

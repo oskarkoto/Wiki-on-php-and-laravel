@@ -27,6 +27,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('wtypes',wtypeController::class);
 Route::resource('wstates',wstateController::class);
+Route::resource('comments',CommentController::class);
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
