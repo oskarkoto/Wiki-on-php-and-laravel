@@ -74,21 +74,19 @@
                         @endforeach
                     </div>
                 </div>
-            </div>
-            <div class="row p-2">
                 <form id="newComment" action="{{ route('comments.store') }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="p-2 col-xs-12 col-sm-12 col-md-12 form-group">
-                            <strong>Comment:</strong>
-                            <input type="text" name="description" class="form-control" placeholder="Comment">
+                            <strong>New Comment:</strong>
+                            <textarea class="form-control" style="height:150px" name="description" placeholder="Contents"></textarea>
                         </div>
                         <input type="hidden" name="author" value={{ auth()->user()->id }}>
+                        <input type="hidden" name="wiki" value={{ $data['wikis']->id }}>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
     <div class="pt-2 col-xs-12 col-sm-12 col-md-12 text-center">
         <a class="btn btn-secondary" href="{{ route('wikis.index') }}" style="margin-left: 10px"> Back</a>

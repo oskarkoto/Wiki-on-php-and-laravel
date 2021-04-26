@@ -64,8 +64,8 @@
         @endforeach
     </table>
     <div class="pt-2 col-xs-12 col-sm-12 col-md-12 text-center">
-        @can('wiki-create')
             <a class="btn btn-secondary" href="{{ route('home') }}" style="margin-left: 10px"> Back</a>
+        @can('wiki-create')
             <a class="btn btn-primary" href="{{ route('wikis.create') }}"> Create New Wiki</a>
         @endcan
     </div>

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\User;
-use App\Models\Wiki;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -38,7 +36,7 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         Comment::create($request->all());
-        return redirect()->route('wikis.show')
+        return redirect()->route('wikis.show', $request['wiki'])
             ->with('success','Comment created successfully.');
     }
 
