@@ -1,5 +1,8 @@
-Wiki application (practice PHP with MVC for educational purposes)
-PHP/Laravel
+# **Wiki Application **
+
+Built with PHP Laravel 
+
+2021 Costa Rica
 
 ## Instructions to execute DB seeds
 
